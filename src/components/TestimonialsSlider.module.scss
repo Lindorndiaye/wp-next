@@ -1,0 +1,94 @@
+.testimonialWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.testimonialCard {
+  min-height: 300px;
+  max-width: 800px;
+  margin: 0 auto;
+  transition: opacity 0.3s ease;
+}
+
+.companyLogo {
+  height: 40px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--neutral-border-medium);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.dot.active {
+  background: var(--static-white);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.arrowButtonLeft,
+.arrowButtonRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+}
+
+.arrowButtonLeft {
+  left: -3rem;
+}
+
+.arrowButtonRight {
+  right: -3rem;
+}
+
+.clientImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--neutral-border-medium);
+  display: block;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .testimonialCard {
+    min-height: 250px;
+    padding: 1rem !important;
+  }
+
+  .arrowButtonLeft {
+    left: -1rem;
+  }
+
+  .arrowButtonRight {
+    right: -1rem;
+  }
+  .clientImage {
+    width: 80px;
+    height: 80px;
+  }
+}
+
