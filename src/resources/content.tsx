@@ -85,7 +85,7 @@ const home: Home = {
         alt: "Logo de SocoDevi",
       },
       {
-        src: "/images/partners/Ministere_de_la_santé.webp",
+        src: "/images/partners/Ministere_de_la_sante.webp",
         alt: "Logo de Ministère de la Santé Sénégal",
       },
       {
@@ -435,7 +435,7 @@ const about: About = {
         alt: "Logo de SocoDevi",
       },
       {
-        src: "/images/partners/Ministere_de_la_santé.webp",
+        src: "/images/partners/Ministere_de_la_sante.webp",
         alt: "Logo de Ministère de la Santé Sénégal",
       },
       {
