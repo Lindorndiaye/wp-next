@@ -129,15 +129,19 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
           maxWidth={24}
           s={{ direction: "column" }}
           gap="8"
+          vertical="stretch"
         >
-          <Input
-            formNoValidate
-            id="mce-EMAIL"
-            name="EMAIL"
-            type="email"
-            placeholder="Email"
-            required
-            onChange={(e) => {
+          <div style={{ height: "var(--static-space-48)", display: "flex" }}>
+            <Input
+              formNoValidate
+              id="mce-EMAIL"
+              name="EMAIL"
+              type="email"
+              placeholder="Email"
+              required
+              height="s"
+              style={{ flex: 1, minHeight: 0 }}
+              onChange={(e) => {
               if (error) {
                 handleChange(e);
               } else {
@@ -147,6 +151,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
             onBlur={handleBlur}
             errorMessage={error}
           />
+          </div>
           <div style={{ display: "none" }}>
             <input
               type="checkbox"
@@ -170,12 +175,10 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
               value=""
             />
           </div>
-          <div className="clear">
-            <Row height="48" vertical="center">
-              <Button id="mc-embedded-subscribe" value="Subscribe" size="m" fillWidth>
-                Subscribe
-              </Button>
-            </Row>
+          <div className="clear" style={{ minHeight: "var(--static-space-48)" }}>
+            <Button id="mc-embedded-subscribe" value="Subscribe" size="m" fillWidth style={{ height: "var(--static-space-48)" }}>
+              Subscribe
+            </Button>
           </div>
         </Row>
       </form>
