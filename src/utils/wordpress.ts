@@ -1046,3 +1046,89 @@ function transformGraphQLProject(graphqlProject: GraphQLProjectNode): Project {
     content: description,
   };
 }
+
+// ============================================================================
+// TÉMOIGNAGES (GraphQL)
+// ============================================================================
+
+export type Temoignage = {
+  name: string;
+  content: string;
+  poste?: string;
+  image?: string;
+  imageAlt?: string;
+};
+
+type GraphQLTemoignageNode = {
+  title: string;
+  content: string;
+  poste?: string;
+  featuredImage?: {
+    node: {
+      altText?: string;
+      mediaItemUrl?: string;
+      sourceUrl?: string;
+    };
+  } | null;
+};
+
+type GraphQLTemoignagesResponse = {
+  temoignages: {
+    nodes: GraphQLTemoignageNode[];
+  };
+};
+
+const GET_TEMOIGNAGES_QUERY = `
+  query GetTemoignages {
+    temoignages(first: 100, where: { status: PUBLISH }) {
+      nodes {
+        title
+        content
+        poste
+        featuredImage {
+          node {
+            altText
+            mediaItemUrl
+            sourceUrl
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * Récupère les témoignages depuis WordPress GraphQL
+ */
+export async function getWordPressTemoignages(): Promise<Temoignage[]> {
+  const wordpressUrl = process.env.WORDPRESS_URL;
+
+  if (!wordpressUrl) {
+    return [];
+  }
+
+  try {
+    const client = getGraphQLClient();
+    const data = await client.request<GraphQLTemoignagesResponse>(GET_TEMOIGNAGES_QUERY);
+    const nodes = data.temoignages?.nodes ?? [];
+    return nodes.map((node) => {
+      const content = (node.content || "")
+        .replace(/<[^>]*>/g, "")
+        .replace(/&[^;]+;/g, " ")
+        .trim();
+      const mediaNode = node.featuredImage?.node;
+      const image = mediaNode?.mediaItemUrl || mediaNode?.sourceUrl;
+      const imageAlt = mediaNode?.altText;
+      return {
+        name: decodeHTMLEntities(node.title || ""),
+        content,
+        poste: node.poste ? decodeHTMLEntities(node.poste) : undefined,
+        image: image || undefined,
+        imageAlt: imageAlt || undefined,
+      };
+    });
+  } catch (error) {
+    console.warn("Erreur lors de la récupération des témoignages GraphQL:", error);
+    return [];
+  }
+}

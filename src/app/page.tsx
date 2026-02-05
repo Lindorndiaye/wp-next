@@ -12,7 +12,7 @@ import {
   Line,
 } from "@once-ui-system/core";
 import { home, about, person, baseURL, routes } from "@/resources";
-import { Mailchimp, PartnersMarquee } from "@/components";
+import { Mailchimp, PartnersMarquee, TemoignagesSection } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 
@@ -108,6 +108,9 @@ export default async function Home() {
           <PartnersMarquee title={home.partners.title} logos={home.partners.logos} />
         </RevealFx>
       )}
+      <RevealFx translateY="8" delay={0.8} fillWidth>
+        <TemoignagesSection />
+      </RevealFx>
       {routes["/blog"] && (
         <Column fillWidth gap="24" marginBottom="l">
           <Row fillWidth paddingRight="64">

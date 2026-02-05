@@ -11,3 +11,5 @@ export { ThemeToggle } from "@/components/ThemeToggle";
 export { CustomMDX } from "@/components/mdx";
 export { PartnersMarquee } from "@/components/PartnersMarquee";
 export { PartnersGrid } from "@/components/PartnersGrid";
+export { TestimonialsSlider } from "@/components/TestimonialsSlider";
+export { TemoignagesSection } from "@/components/temoignages/TemoignagesSection";
