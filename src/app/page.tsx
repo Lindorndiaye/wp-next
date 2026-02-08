@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   Heading,
   Text,
@@ -15,15 +16,27 @@ import { home, about, person, baseURL, routes } from "@/resources";
 import { Mailchimp, PartnersMarquee, TemoignagesSection } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
+import { getWordPressProjects } from "@/utils/wordpress";
 
 export async function generateMetadata() {
-  return Meta.generate({
+  const baseMeta = Meta.generate({
     title: home.title,
     description: home.description,
     baseURL: baseURL,
     path: home.path,
     image: home.image,
   });
+  const projects = await getWordPressProjects();
+  const firstImage = projects[0]?.metadata?.images?.[0];
+  return {
+    ...baseMeta,
+    ...(firstImage && {
+      links: [
+        ...(Array.isArray(baseMeta.links) ? baseMeta.links : []),
+        { rel: "preload", href: firstImage, as: "image" },
+      ],
+    }),
+  };
 }
 
 export default async function Home() {
@@ -108,31 +121,39 @@ export default async function Home() {
           <PartnersMarquee title={home.partners.title} logos={home.partners.logos} />
         </RevealFx>
       )}
-      <RevealFx translateY="8" delay={0.8} fillWidth>
-        <TemoignagesSection />
-      </RevealFx>
+      <Suspense fallback={null}>
+        <RevealFx translateY="8" delay={0.8} fillWidth>
+          <TemoignagesSection />
+        </RevealFx>
+      </Suspense>
       {routes["/blog"] && (
-        <Column fillWidth gap="24" marginBottom="l">
-          <Row fillWidth paddingRight="64">
-            <Line maxWidth={48} />
-          </Row>
-          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
-              <Heading as="h2" variant="display-strong-xs" wrap="balance">
-                Derniers articles du blog
-              </Heading>
+        <Suspense fallback={null}>
+          <Column fillWidth gap="24" marginBottom="l">
+            <Row fillWidth paddingRight="64">
+              <Line maxWidth={48} />
             </Row>
-            <Row flex={3} paddingX="20">
-              <Posts range={[1, 2]} columns="2" />
+            <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
+              <Row flex={1} paddingLeft="l" paddingTop="24">
+                <Heading as="h2" variant="display-strong-xs" wrap="balance">
+                  Derniers articles du blog
+                </Heading>
+              </Row>
+              <Row flex={3} paddingX="20">
+                <Posts range={[1, 2]} columns="2" />
+              </Row>
             </Row>
-          </Row>
-          <Row fillWidth paddingLeft="64" horizontal="end">
-            <Line maxWidth={48} />
-          </Row>
-        </Column>
+            <Row fillWidth paddingLeft="64" horizontal="end">
+              <Line maxWidth={48} />
+            </Row>
+          </Column>
+        </Suspense>
       )}
-      <Projects range={[2]} />
-      <Mailchimp />
+      <Suspense fallback={null}>
+        <Projects range={[2]} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <Mailchimp />
+      </Suspense>
     </Column>
   );
 }

@@ -39,6 +39,8 @@ export function PartnersGrid({ title, logos }: PartnersGridProps) {
             <img
               src={logo.src}
               alt={logo.alt}
+              width={160}
+              height={160}
               className={styles.logo}
               draggable={false}
             />

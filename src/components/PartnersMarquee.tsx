@@ -27,6 +27,8 @@ export function PartnersMarquee({ title, logos }: PartnersMarqueeProps) {
               <img
                 src={logo.src}
                 alt={logo.alt}
+                width={120}
+                height={120}
                 className={styles.logo}
                 draggable={false}
               />

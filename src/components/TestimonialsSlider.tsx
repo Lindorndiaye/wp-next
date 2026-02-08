@@ -184,6 +184,8 @@ export function TestimonialsSlider({ title, testimonials }: TestimonialsSliderPr
               <img
                 src={currentTestimonial.image}
                 alt={currentTestimonial.name}
+                width={100}
+                height={100}
                 className={styles.clientImage}
                 onError={(e) => {
                   // Fallback to avatar if image fails to load
@@ -210,6 +212,8 @@ export function TestimonialsSlider({ title, testimonials }: TestimonialsSliderPr
               <img
                 src={currentTestimonial.companyLogo}
                 alt={`Logo ${currentTestimonial.name}`}
+                width={120}
+                height={40}
                 className={styles.companyLogo}
               />
             )}
