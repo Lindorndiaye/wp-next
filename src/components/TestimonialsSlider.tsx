@@ -221,13 +221,24 @@ export function TestimonialsSlider({ title, testimonials }: TestimonialsSliderPr
         </Column>
         </div>
         {testimonials.length > 1 && (
-          <Row gap="xs" paddingTop="l" horizontal="center" vertical="center">
+          <Row
+            gap="xs"
+            paddingTop="l"
+            horizontal="center"
+            vertical="center"
+            role="tablist"
+            aria-label="Pagination des témoignages"
+          >
             {testimonials.map((_, index) => (
               <button
                 key={index}
+                type="button"
+                role="tab"
+                aria-selected={index === currentIndex}
+                aria-label={`Aller au témoignage ${index + 1}`}
+                tabIndex={index === currentIndex ? 0 : -1}
                 className={`${styles.dot} ${index === currentIndex ? styles.active : ''}`}
                 onClick={() => setCurrentIndex(index)}
-                aria-label={`Aller au témoignage ${index + 1}`}
               />
             ))}
           </Row>
