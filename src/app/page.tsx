@@ -16,27 +16,15 @@ import { home, about, person, baseURL, routes } from "@/resources";
 import { Mailchimp, PartnersMarquee, TemoignagesSection } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
-import { getWordPressProjects } from "@/utils/wordpress";
 
 export async function generateMetadata() {
-  const baseMeta = Meta.generate({
+  return Meta.generate({
     title: home.title,
     description: home.description,
     baseURL: baseURL,
     path: home.path,
     image: home.image,
   });
-  const projects = await getWordPressProjects();
-  const firstImage = projects[0]?.metadata?.images?.[0];
-  return {
-    ...baseMeta,
-    ...(firstImage && {
-      links: [
-        ...(Array.isArray(baseMeta.links) ? baseMeta.links : []),
-        { rel: "preload", href: firstImage, as: "image" },
-      ],
-    }),
-  };
 }
 
 export default async function Home() {
