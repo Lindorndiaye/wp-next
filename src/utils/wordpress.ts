@@ -468,6 +468,10 @@ function transformWordPressProject(wpProject: WordPressProject): Project {
   // Utiliser la description ACF (WYSIWYG) si disponible, sinon utiliser le contenu WordPress
   const description = acf.description || content;
 
+  // Lien du site live (uniquement le champ ACF, pas de fallback sur l'URL WordPress)
+  const rawLink = acf.lien_du_site_live_site || acf.lienDuSiteLiveSite || acf.link || "";
+  const link = rawLink.trim() ? rawLink.trim() : "";
+
   return {
     slug: wpProject.slug,
     metadata: {
@@ -477,7 +481,7 @@ function transformWordPressProject(wpProject: WordPressProject): Project {
       image: featuredImage || (images.length > 0 ? images[0] : ""),
       images: images,
       team: team,
-      link: acf.link || wpProject.link || "",
+      link,
     },
     content: description,
   };
@@ -1022,8 +1026,9 @@ function transformGraphQLProject(graphqlProject: GraphQLProjectNode): Project {
   // L'équipe n'est pas dans votre structure Pods, donc tableau vide
   const team: Team[] = [];
 
-  // Lien du site (lienDuSiteLiveSite en camelCase)
-  const link = graphqlProject.lienDuSiteLiveSite || graphqlProject.link || "";
+  // Lien du site live (uniquement lienDuSiteLiveSite, pas de fallback sur l'URL WordPress)
+  const rawLink = graphqlProject.lienDuSiteLiveSite || "";
+  const link = rawLink.trim() ? rawLink.trim() : "";
 
   // Client
   const client = graphqlProject.client || "";
