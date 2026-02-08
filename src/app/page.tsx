@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import {
   Heading,
@@ -13,9 +14,17 @@ import {
   Line,
 } from "@once-ui-system/core";
 import { home, about, person, baseURL, routes } from "@/resources";
-import { Mailchimp, PartnersMarquee, TemoignagesSection } from "@/components";
+import { TemoignagesSection } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
+
+const PartnersMarquee = dynamic(() => import("@/components").then((m) => ({ default: m.PartnersMarquee })), {
+  ssr: true,
+});
+
+const Mailchimp = dynamic(() => import("@/components").then((m) => ({ default: m.Mailchimp })), {
+  ssr: true,
+});
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -71,12 +80,12 @@ export default async function Home() {
               {home.headline}
             </Heading>
           </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
+          <RevealFx translateY="8" delay={0.05} fillWidth horizontal="center" paddingBottom="32">
             <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-l">
               {home.subline}
             </Text>
           </RevealFx>
-          <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
+          <RevealFx paddingTop="12" delay={0.08} horizontal="center" paddingLeft="12">
             <Button
               id="about"
               data-border="rounded"
@@ -101,16 +110,16 @@ export default async function Home() {
           </RevealFx>
         </Column>
       </Column>
-      <RevealFx translateY="16" delay={0.6}>
+      <RevealFx translateY="16" delay={0.1}>
         <Projects range={[1, 1]} />
       </RevealFx>
       {home.partners?.display && (
-        <RevealFx translateY="8" delay={0.8} fillWidth>
+        <RevealFx translateY="8" delay={0.15} fillWidth>
           <PartnersMarquee title={home.partners.title} logos={home.partners.logos} />
         </RevealFx>
       )}
       <Suspense fallback={null}>
-        <RevealFx translateY="8" delay={0.8} fillWidth>
+        <RevealFx translateY="8" delay={0.2} fillWidth>
           <TemoignagesSection />
         </RevealFx>
       </Suspense>
