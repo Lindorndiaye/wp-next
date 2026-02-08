@@ -22,14 +22,18 @@
 }
 
 .dot {
+  /* Zone tactile min. 44x44px (accessibilité) */
+  min-width: 44px;
+  min-height: 44px;
   width: 8px;
   height: 8px;
+  padding: 18px;
   border-radius: 50%;
   border: none;
   background: var(--neutral-border-medium);
   cursor: pointer;
   transition: all 0.3s ease;
-  padding: 0;
+  box-sizing: content-box;
 }
 
 .dot.active {

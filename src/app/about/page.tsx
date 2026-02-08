@@ -145,6 +145,7 @@ export default function About() {
                   data-border="rounded"
                   variant="secondary"
                   icon="chevronRight"
+                  aria-label="Planifier un appel"
                 />
               </Row>
             )}
@@ -191,6 +192,7 @@ export default function About() {
                             href={item.link}
                             icon={item.icon}
                             variant="secondary"
+                            aria-label={item.name}
                           />
                         </Row>
                       </React.Fragment>

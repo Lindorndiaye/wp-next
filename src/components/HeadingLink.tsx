@@ -63,6 +63,7 @@ export const HeadingLink: React.FC<HeadingLinkProps> = ({ id, level, children, s
         variant="ghost"
         tooltip="Copier"
         tooltipPosition="right"
+        aria-label="Copier le lien"
       />
     </Flex>
   );
