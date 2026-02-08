@@ -1112,9 +1112,16 @@ export async function getWordPressTemoignages(): Promise<Temoignage[]> {
     const data = await client.request<GraphQLTemoignagesResponse>(GET_TEMOIGNAGES_QUERY);
     const nodes = data.temoignages?.nodes ?? [];
     return nodes.map((node) => {
-      const content = (node.content || "")
-        .replace(/<[^>]*>/g, "")
-        .replace(/&[^;]+;/g, " ")
+      // Préserver les retours à la ligne et la mise en forme (..., sauts de ligne)
+      let content = node.content || "";
+      content = content
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<\/p>\s*<p[^>]*>/gi, "\n\n")
+        .replace(/<\/div>\s*<div[^>]*>/gi, "\n\n")
+        .replace(/<\/li>\s*<li[^>]*>/gi, "\n")
+        .replace(/<[^>]*>/g, "");
+      content = decodeHTMLEntities(content)
+        .replace(/\n{3,}/g, "\n\n")
         .trim();
       const mediaNode = node.featuredImage?.node;
       const image = mediaNode?.mediaItemUrl || mediaNode?.sourceUrl;

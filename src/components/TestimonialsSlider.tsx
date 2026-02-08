@@ -174,7 +174,7 @@ export function TestimonialsSlider({ title, testimonials }: TestimonialsSliderPr
               variant="heading-default-s"
               wrap="balance"
               onBackground="neutral-weak"
-              style={{ fontStyle: "normal", textAlign: "center" }}
+              style={{ fontStyle: "normal", textAlign: "center", whiteSpace: "pre-line" }}
             >
               {currentTestimonial.content}
             </Text>
