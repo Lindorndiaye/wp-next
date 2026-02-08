@@ -221,7 +221,7 @@ export function TestimonialsSlider({ title, testimonials }: TestimonialsSliderPr
         </Column>
         </div>
         {testimonials.length > 1 && (
-          <Row gap="s" paddingTop="l" horizontal="center" vertical="center">
+          <Row gap="xs" paddingTop="l" horizontal="center" vertical="center">
             {testimonials.map((_, index) => (
               <button
                 key={index}
