@@ -267,6 +267,7 @@ export type ProjectMetadata = {
   team: Team[];
   link?: string;
   client?: string;
+  onHomePage?: boolean;
 };
 
 export type Project = {
@@ -296,6 +297,8 @@ type WordPressProject = {
     link?: string;
     team?: string; // Textarea avec JSON
     description?: string; // WYSIWYG Editor - Description longue
+     on_home_page?: boolean | string;
+     onHomePage?: boolean | string;
   };
   _embedded?: {
     "wp:featuredmedia"?: Array<{
@@ -472,6 +475,13 @@ function transformWordPressProject(wpProject: WordPressProject): Project {
   const rawLink = acf.lien_du_site_live_site || acf.lienDuSiteLiveSite || acf.link || "";
   const link = rawLink.trim() ? rawLink.trim() : "";
 
+  // Indicateur d'affichage sur la page d'accueil
+  const onHomePageRaw = typeof acf.on_home_page !== "undefined" ? acf.on_home_page : acf.onHomePage;
+  const onHomePage =
+    typeof onHomePageRaw === "string"
+      ? onHomePageRaw === "1" || onHomePageRaw.toLowerCase() === "true"
+      : Boolean(onHomePageRaw);
+
   return {
     slug: wpProject.slug,
     metadata: {
@@ -482,6 +492,7 @@ function transformWordPressProject(wpProject: WordPressProject): Project {
       images: images,
       team: team,
       link,
+      onHomePage,
     },
     content: description,
   };
@@ -581,6 +592,7 @@ type GraphQLProjectNode = {
   client?: string; // Nom du client
   lienDuSiteLiveSite?: string; // Lien du site (camelCase)
   images?: GraphQLProjectImagesConnection; // Images (connection avec nodes)
+  onHomePage?: boolean;
 };
 
 type GraphQLProjectsResponse = {
@@ -689,6 +701,7 @@ const GET_PROJECTS_PAGINATED_QUERY = `
         description
         client
         lienDuSiteLiveSite
+        onHomePage
         images {
           nodes {
             sourceUrl
@@ -723,6 +736,7 @@ const GET_PROJECTS_QUERY = `
         description
         client
         lienDuSiteLiveSite
+        onHomePage
         images {
           nodes {
             sourceUrl
@@ -757,6 +771,7 @@ const GET_PROJECT_BY_SLUG_QUERY = `
       description
       client
       lienDuSiteLiveSite
+      onHomePage
       images {
         nodes {
           sourceUrl
@@ -1036,6 +1051,9 @@ function transformGraphQLProject(graphqlProject: GraphQLProjectNode): Project {
   // Description (champ WYSIWYG Pods - remplace content)
   const description = graphqlProject.description || "";
 
+  // Indicateur d'affichage sur la page d'accueil
+  const onHomePage = Boolean(graphqlProject.onHomePage);
+
   return {
     slug: graphqlProject.slug,
     metadata: {
@@ -1047,6 +1065,7 @@ function transformGraphQLProject(graphqlProject: GraphQLProjectNode): Project {
       team: team,
       link: link,
       client: client,
+      onHomePage,
     },
     content: description,
   };

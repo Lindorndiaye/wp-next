@@ -111,7 +111,7 @@ export default async function Home() {
         </Column>
       </Column>
       <RevealFx translateY="16" delay={0.1}>
-        <Projects range={[1, 1]} />
+        <Projects range={[1, 1]} onlyHome />
       </RevealFx>
       {home.partners?.display && (
         <RevealFx translateY="8" delay={0.15} fillWidth>
@@ -146,7 +146,7 @@ export default async function Home() {
         </Suspense>
       )}
       <Suspense fallback={null}>
-        <Projects range={[2]} />
+        <Projects range={[2]} onlyHome />
       </Suspense>
       <Suspense fallback={null}>
         <Mailchimp />

@@ -5,14 +5,20 @@ import { ProjectCard } from "@/components";
 interface ProjectsProps {
   range?: [number, number?];
   exclude?: string[];
+  onlyHome?: boolean;
 }
 
-export async function Projects({ range, exclude }: ProjectsProps) {
+export async function Projects({ range, exclude, onlyHome }: ProjectsProps) {
   let allProjects = await getWordPressProjects();
 
   // Exclude by slug (exact match)
   if (exclude && exclude.length > 0) {
     allProjects = allProjects.filter((post) => !exclude.includes(post.slug));
+  }
+
+  // Ne garder que les projets marqués "onHomePage" si demandé
+  if (onlyHome) {
+    allProjects = allProjects.filter((post) => post.metadata.onHomePage);
   }
 
   const sortedProjects = allProjects.sort((a, b) => {
